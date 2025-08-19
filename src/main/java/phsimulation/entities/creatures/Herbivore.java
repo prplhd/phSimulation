@@ -28,4 +28,8 @@ public class Herbivore extends Creature {
     public int getHp() {
         return hp;
     }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
 }

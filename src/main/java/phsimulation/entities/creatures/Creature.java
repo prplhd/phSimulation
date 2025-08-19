@@ -93,7 +93,7 @@ public abstract class Creature extends Entity {
         }
 
         return Optional.empty();
-    };
+    }
 
     protected abstract void interactWithTarget(WorldMap worldMap, Coordinate currentPos, Coordinate targetPos);
 }

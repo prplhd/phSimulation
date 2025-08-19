@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             WorldMap worldMap = new WorldMap(10, 10);
-            worldMap.setEntity(new Coordinate(1, 1), new Predator(2, 100, 50));
+            worldMap.setEntity(new Coordinate(1, 1), new Predator(2, 100, 34));
             worldMap.setEntity(new Coordinate(1, 4), new Herbivore(1, 100, 20));
             worldMap.setEntity(new Coordinate(5, 5), new Herbivore(1, 100, 20));
             worldMap.setEntity(new Coordinate(7, 2), new Herbivore(1, 100, 20));

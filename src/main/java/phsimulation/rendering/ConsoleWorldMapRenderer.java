@@ -59,7 +59,7 @@ public class ConsoleWorldMapRenderer implements WorldMapRenderer {
                 case "Grass" -> SpriteType.GRASS.getSprite();
                 case "Rock" -> SpriteType.ROCK.getSprite();
                 case "Tree" -> SpriteType.TREE.getSprite();
-                default -> throw new UnknownEntityException(entity);
+                default -> throw new UnknownEntityException(entity.getClass().getSimpleName());
             };
         }
 

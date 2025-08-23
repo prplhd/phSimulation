@@ -23,11 +23,16 @@ public class Main {
             worldMap.setEntity(new Coordinate(1, 4), entityFactory.create(EntityType.HERBIVORE));
             worldMap.setEntity(new Coordinate(5, 5), entityFactory.create(EntityType.HERBIVORE));
             worldMap.setEntity(new Coordinate(7, 2), entityFactory.create(EntityType.HERBIVORE));
+            worldMap.setEntity(new Coordinate(8, 8), entityFactory.create(EntityType.HERBIVORE));
             worldMap.setEntity(new Coordinate(8, 3), entityFactory.create(EntityType.GRASS));
             worldMap.setEntity(new Coordinate(2, 7), entityFactory.create(EntityType.GRASS));
+            worldMap.setEntity(new Coordinate(3, 5), entityFactory.create(EntityType.GRASS));
+            worldMap.setEntity(new Coordinate(2, 0), entityFactory.create(EntityType.GRASS));
             worldMap.setEntity(new Coordinate(4, 5), entityFactory.create(EntityType.TREE));
+            worldMap.setEntity(new Coordinate(8, 2), entityFactory.create(EntityType.TREE));
             worldMap.setEntity(new Coordinate(3, 1), entityFactory.create(EntityType.TREE));
             worldMap.setEntity(new Coordinate(3, 2), entityFactory.create(EntityType.ROCK));
+            worldMap.setEntity(new Coordinate(4, 7), entityFactory.create(EntityType.ROCK));
             worldMap.setEntity(new Coordinate(2, 6), entityFactory.create(EntityType.ROCK));
             worldMap.setEntity(new Coordinate(7, 3), entityFactory.create(EntityType.ROCK));
 

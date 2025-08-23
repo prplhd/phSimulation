@@ -59,12 +59,12 @@ public abstract class Creature extends Entity {
     protected void moveTo(WorldMap worldMap, Coordinate currentPos, Coordinate newPos) {
         Entity currentPosEntity = worldMap.getEntity(currentPos).orElse(null);
         if (currentPosEntity != this) {
-            throw new InvalidMoveException("No expected entity found at %s for movement".formatted(currentPos));
+            throw InvalidMoveException.missingSourceEntity(currentPos);
         }
 
         Entity newPosEntity = worldMap.getEntity(newPos).orElse(null);
         if (newPosEntity != null) {
-            throw new InvalidMoveException("Target cell %s is already occupied".formatted(newPos));
+            throw InvalidMoveException.targetOccupied(newPos);
         }
 
         worldMap.removeEntity(currentPos);

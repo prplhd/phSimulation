@@ -55,25 +55,6 @@ public class WorldMap {
         entities.remove(coordinate);
     }
 
-    public void moveEntity(Coordinate from, Coordinate to, Entity entity) {
-        if (from.equals(to)){
-            return;
-        }
-
-        Entity fromEntity = getEntity(from).orElse(null);
-        if (fromEntity != entity) {
-            throw new IllegalStateException("No expected entity found at %s for movement".formatted(from));
-        }
-
-        Entity toEntity = getEntity(to).orElse(null);
-        if (toEntity != null) {
-            throw new IllegalStateException("Target cell %s is already occupied".formatted(to));
-        }
-
-        removeEntity(from);
-        setEntity(to, entity);
-    }
-
     public int getWidth() {
         return width;
     }

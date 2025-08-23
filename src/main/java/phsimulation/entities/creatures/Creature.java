@@ -5,6 +5,7 @@ import main.java.phsimulation.coordinate.Coordinate;
 import main.java.phsimulation.WorldMap;
 import main.java.phsimulation.coordinate.Direction;
 import main.java.phsimulation.entities.Entity;
+import main.java.phsimulation.exceptions.InvalidMoveException;
 import main.java.phsimulation.pathfinding.BreadthFirstPathfinder;
 
 import java.util.ArrayList;
@@ -47,12 +48,27 @@ public abstract class Creature extends Entity {
         Coordinate newPos;
         if(path.size() <= speed) {
             newPos = path.get(path.size() - 1 - 1);
-            worldMap.moveEntity(currentPos, newPos, this);
+            moveTo(worldMap, currentPos, newPos);
             return;
         }
 
         newPos = path.get(speed - 1);
-        worldMap.moveEntity(currentPos, newPos, this);
+        moveTo(worldMap, currentPos, newPos);
+    }
+
+    protected void moveTo(WorldMap worldMap, Coordinate currentPos, Coordinate newPos) {
+        Entity currentPosEntity = worldMap.getEntity(currentPos).orElse(null);
+        if (currentPosEntity != this) {
+            throw new InvalidMoveException("No expected entity found at %s for movement".formatted(currentPos));
+        }
+
+        Entity newPosEntity = worldMap.getEntity(newPos).orElse(null);
+        if (newPosEntity != null) {
+            throw new InvalidMoveException("Target cell %s is already occupied".formatted(newPos));
+        }
+
+        worldMap.removeEntity(currentPos);
+        worldMap.setEntity(newPos, this);
     }
 
     protected void moveRandomly(WorldMap worldMap, Coordinate currentPos) {
@@ -75,7 +91,7 @@ public abstract class Creature extends Entity {
 
         Random random = new Random();
         int randomIndex = random.nextInt(availableCoordinates.size());
-        worldMap.moveEntity(currentPos, availableCoordinates.get(randomIndex), this);
+        moveTo(worldMap, currentPos, availableCoordinates.get(randomIndex));
     }
 
     protected Optional<Coordinate> findTargetNearby(WorldMap worldMap, Coordinate currentPos) {

@@ -18,8 +18,8 @@ public final class SimulationConfig{
     private final int treeCount;
     private final int rockCount;
 
-    private final double grassMinThreshold;
-    private final double herbivoreMinThreshold;
+    private final int grassMinCount;
+    private final int herbivoreMinCount;
 
     private SimulationConfig(Builder builder) {
         this.worldMapHeight = builder.worldMapHeight;
@@ -39,8 +39,8 @@ public final class SimulationConfig{
         this.treeCount = builder.treeCount;
         this.rockCount = builder.rockCount;
 
-        this.grassMinThreshold = builder.grassMinThreshold;
-        this.herbivoreMinThreshold = builder.herbivoreMinThreshold;
+        this.grassMinCount = builder.grassMinCount;
+        this.herbivoreMinCount = builder.herbivoreMinCount;
     }
 
     public static class Builder {
@@ -61,8 +61,8 @@ public final class SimulationConfig{
         private int treeCount;
         private int rockCount;
 
-        private double grassMinThreshold;
-        private double herbivoreMinThreshold;
+        private int grassMinCount;
+        private int herbivoreMinCount;
 
         public static class WorldMapBuilder {
             private final Builder builder;
@@ -219,34 +219,34 @@ public final class SimulationConfig{
             return new EntitiesCountBuilder(this);
         }
 
-        public static class MinThresholdsBuilder {
+        public static class MinCountsBuilder {
             private final Builder builder;
-            private double grassMinThreshold;
-            private double herbivoreMinThreshold;
+            private int grassMinCount;
+            private int herbivoreMinCount;
 
-            private MinThresholdsBuilder(Builder builder) {
+            private MinCountsBuilder(Builder builder) {
                 this.builder = builder;
             }
 
-            public MinThresholdsBuilder grassMinThreshold(double grassMinThreshold) {
-                this.grassMinThreshold = grassMinThreshold;
+            public MinCountsBuilder grassMinCount(int grassMinCount) {
+                this.grassMinCount = grassMinCount;
                 return this;
             }
 
-            public MinThresholdsBuilder herbivoreMinThreshold(double herbivoreMinThreshold) {
-                this.herbivoreMinThreshold = herbivoreMinThreshold;
+            public MinCountsBuilder herbivoreMinCount(int herbivoreMinCount) {
+                this.herbivoreMinCount = herbivoreMinCount;
                 return this;
             }
 
             public Builder done() {
-                builder.grassMinThreshold = grassMinThreshold;
-                builder.herbivoreMinThreshold = herbivoreMinThreshold;
+                builder.grassMinCount = grassMinCount;
+                builder.herbivoreMinCount = herbivoreMinCount;
                 return builder;
             }
         }
 
-        public MinThresholdsBuilder minThresholds() {
-            return new MinThresholdsBuilder(this);
+        public MinCountsBuilder minCounts() {
+            return new MinCountsBuilder(this);
         }
 
         public SimulationConfig build() {
@@ -308,11 +308,11 @@ public final class SimulationConfig{
         return rockCount;
     }
 
-    public double getGrassMinThreshold() {
-        return grassMinThreshold;
+    public int getGrassMinCount() {
+        return grassMinCount;
     }
 
-    public double getHerbivoreMinThreshold() {
-        return herbivoreMinThreshold;
+    public int getHerbivoreMinCount() {
+        return herbivoreMinCount;
     }
 }

@@ -47,7 +47,10 @@ public abstract class Creature extends Entity {
 
         Coordinate newPos;
         if(path.size() <= speed) {
-            newPos = path.get(path.size() - 1 - 1);
+            /* Если значение скорости больше значения размера пути, то существо
+               занимает клетку, находящуюся перед своей целью
+             */
+            newPos = path.get((path.size() - 1) - 1);
             moveTo(worldMap, currentPos, newPos);
             return;
         }

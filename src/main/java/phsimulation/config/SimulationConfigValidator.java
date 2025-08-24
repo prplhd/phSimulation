@@ -32,11 +32,12 @@ public final class SimulationConfigValidator {
         }
 
         if (cfg.getPredatorCount() < 0 || cfg.getHerbivoreCount() < 0 || cfg.getGrassCount() < 0 || cfg.getTreeCount() < 0 || cfg.getRockCount() < 0) {
-            errors.add("Entity counts must be greater than or equal to 0");
+            errors.add("Entity counts must be non-negative");
         }
 
-        if (cfg.getGrassMinThreshold() < 0.0 || cfg.getGrassMinThreshold() > 1.0 || cfg.getHerbivoreMinThreshold() < 0 || cfg.getHerbivoreMinThreshold() > 1.0) {
-            errors.add("Thresholds must be in [0.0, 1.0]");
+        if (cfg.getGrassMinCount() < 0 || cfg.getGrassMinCount() >= cfg.getGrassCount()
+                || cfg.getHerbivoreMinCount() < 0 || cfg.getHerbivoreMinCount() >= cfg.getHerbivoreCount()) {
+            errors.add("Minimal count must be non-negative and not greater than the total count of this entity");
         }
 
         int area = cfg.getWorldMapHeight() * cfg.getWorldMapWidth();

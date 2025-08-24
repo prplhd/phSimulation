@@ -9,8 +9,10 @@ import main.java.phsimulation.entities.terrain.Grass;
 import main.java.phsimulation.entities.terrain.Rock;
 import main.java.phsimulation.entities.terrain.Tree;
 
+import javax.lang.model.UnknownEntityException;
+
 public final class EntityFactory {
-    SimulationConfig cfg;
+    private SimulationConfig cfg;
 
     public EntityFactory(SimulationConfig cfg) {
         this.cfg = cfg;

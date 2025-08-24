@@ -28,6 +28,7 @@ public class ConsoleWorldMapRenderer implements WorldMapRenderer {
             }
             System.out.println();
         }
+        System.out.println();
     }
 
     private String getBackgroundColor(WorldMap worldMap, Coordinate coordinate) {
@@ -49,10 +50,9 @@ public class ConsoleWorldMapRenderer implements WorldMapRenderer {
     }
 
     private String getSprite(WorldMap worldMap, Coordinate coordinate) {
-        Optional<Entity> optEntity = worldMap.getEntity(coordinate);
+        Entity entity = worldMap.getEntity(coordinate).orElse(null);
 
-        if (optEntity.isPresent()) {
-            Entity entity = optEntity.get();
+        if (entity != null) {
             return switch (entity.getClass().getSimpleName()) {
                 case "Predator" -> SpriteType.PREDATOR.getSprite();
                 case "Herbivore" -> SpriteType.HERBIVORE.getSprite();
@@ -71,7 +71,7 @@ public class ConsoleWorldMapRenderer implements WorldMapRenderer {
         PREDATOR("\uD83E\uDD8A"),
         HERBIVORE("\uD83D\uDC07"),
         GRASS("\uD83C\uDF31"),
-        ROCK("\u26F0\uFE0F"),
+        ROCK("\uD83D\uDDFB"),
         TREE("\uD83C\uDFDD\uFE0F");
 
         private final String sprite;

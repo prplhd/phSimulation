@@ -10,14 +10,14 @@ public class InvalidMoveException extends SimulationException{
     public static InvalidMoveException missingSourceEntity(Coordinate coordinate) {
         return new InvalidMoveException("""
                 
-                No expected entity found at %s for movement
+                No expected entity found at coordinate %s for movement
                 """.formatted(coordinate));
     }
 
     public static InvalidMoveException targetOccupied(Coordinate coordinate) {
         return new InvalidMoveException("""
                 
-                Target cell %s is already occupied
+                Target coordinate %s is already occupied
                 """.formatted(coordinate));
     }
 }

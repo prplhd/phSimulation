@@ -1,8 +1,10 @@
 package main.java.phsimulation;
 
+import main.java.phsimulation.actions.MaintainPopulationAction;
+import main.java.phsimulation.actions.MoveAllCreaturesAction;
+import main.java.phsimulation.actions.PopulateWorldAction;
 import main.java.phsimulation.config.SimulationConfig;
 import main.java.phsimulation.config.SimulationPreset;
-import main.java.phsimulation.config.WorldSize;
 import main.java.phsimulation.coordinate.Coordinate;
 import main.java.phsimulation.entities.factory.EntityFactory;
 import main.java.phsimulation.entities.EntityType;
@@ -14,54 +16,32 @@ import main.java.phsimulation.rendering.WorldMapRenderer;
 public class Main {
     public static void main(String[] args) {
         try {
-            SimulationConfig cfg = SimulationPreset.getPresetForSize(WorldSize.SMALL);
-
-            EntityFactory entityFactory = new EntityFactory(cfg);
+            SimulationConfig cfg = SimulationPreset.getForSize(SimulationPreset.WorldSize.SMALL);
 
             WorldMap worldMap = new WorldMap(cfg.getWorldMapHeight(), cfg.getWorldMapWidth());
-            worldMap.setEntity(new Coordinate(1, 1), entityFactory.create(EntityType.PREDATOR));
-            worldMap.setEntity(new Coordinate(1, 4), entityFactory.create(EntityType.HERBIVORE));
-            worldMap.setEntity(new Coordinate(5, 5), entityFactory.create(EntityType.HERBIVORE));
-            worldMap.setEntity(new Coordinate(7, 2), entityFactory.create(EntityType.HERBIVORE));
-            worldMap.setEntity(new Coordinate(8, 8), entityFactory.create(EntityType.HERBIVORE));
-            worldMap.setEntity(new Coordinate(8, 3), entityFactory.create(EntityType.GRASS));
-            worldMap.setEntity(new Coordinate(2, 7), entityFactory.create(EntityType.GRASS));
-            worldMap.setEntity(new Coordinate(3, 5), entityFactory.create(EntityType.GRASS));
-            worldMap.setEntity(new Coordinate(2, 0), entityFactory.create(EntityType.GRASS));
-            worldMap.setEntity(new Coordinate(4, 5), entityFactory.create(EntityType.TREE));
-            worldMap.setEntity(new Coordinate(8, 2), entityFactory.create(EntityType.TREE));
-            worldMap.setEntity(new Coordinate(3, 1), entityFactory.create(EntityType.TREE));
-            worldMap.setEntity(new Coordinate(3, 2), entityFactory.create(EntityType.ROCK));
-            worldMap.setEntity(new Coordinate(4, 7), entityFactory.create(EntityType.ROCK));
-            worldMap.setEntity(new Coordinate(2, 6), entityFactory.create(EntityType.ROCK));
-            worldMap.setEntity(new Coordinate(7, 3), entityFactory.create(EntityType.ROCK));
 
+            PopulateWorldAction populateWorldAction = new PopulateWorldAction(cfg);
+            MaintainPopulationAction maintainPopulationAction = new MaintainPopulationAction(cfg);
+            MoveAllCreaturesAction moveAllCreaturesAction = new MoveAllCreaturesAction();
+            populateWorldAction.execute(worldMap);
 
             WorldMapRenderer worldMapRenderer = new ConsoleWorldMapRenderer();
             String res = """
-                    ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
-                    ⬛⬛🦊🦊🦊🦊⬛🐇🐇🐇⬛🌱⬛⬛⬛🌱⬛⛰️⬛⬛⬛⛰️⬛🏝️⬛⬛⬛⬛⬛⬛🦊⬛⬛⬛🐇🐇🐇🐇🐇⬛⛰️⛰️⛰️⬛⬛🌱🌱🌱⬛⬛🏝️⬛⬛⬛🏝️⬛
-                    ⬛🦊⬛⬛⬛⬛⬛⬛🐇⬛⬛🌱🌱⬛🌱🌱⬛⛰️⬛⬛⬛⛰️⬛🏝️⬛⬛⬛⬛⬛🦊⬛🦊⬛⬛⬛⬛🐇⬛⬛⬛⬛⛰️⬛⬛🌱⬛⬛⬛🌱⬛🏝️🏝️️⬛⬛🏝️⬛
-                    ⬛⬛🦊🦊🦊⬛⬛⬛🐇⬛⬛🌱⬛🌱⬛🌱⬛⛰️⬛⬛⬛⛰️⬛🏝️⬛⬛⬛⬛🦊⬛⬛⬛🦊⬛⬛⬛🐇⬛⬛⬛⬛⛰️⬛⬛🌱⬛⬛⬛🌱⬛🏝️⬛🏝️️⬛🏝️⬛
-                    ⬛⬛⬛⬛⬛🦊⬛⬛🐇⬛⬛🌱⬛⬛⬛🌱⬛⛰️⬛⬛⬛⛰️⬛🏝️⬛⬛⬛⬛🦊🦊🦊🦊🦊⬛⬛⬛🐇⬛⬛⬛⬛⛰️⬛⬛🌱⬛⬛⬛🌱⬛🏝️⬛⬛🏝️️🏝️⬛
-                    ⬛⬛⬛⬛⬛🦊⬛⬛🐇⬛⬛🌱⬛⬛⬛🌱⬛⛰️⬛⬛⬛⛰️⬛🏝️⬛⬛⬛⬛🦊⬛⬛⬛🦊⬛⬛⬛🐇⬛⬛⬛⬛⛰️⬛⬛🌱⬛⬛⬛🌱⬛🏝️⬛⬛⬛🏝️⬛
-                    ⬛🦊🦊🦊🦊⬛⬛🐇🐇🐇⬛🌱⬛⬛⬛🌱⬛⬛⛰️⛰️⛰️⬛⬛🏝️🏝️🏝️🏝️⬛🦊⬛⬛⬛🦊⬛⬛⬛🐇⬛⬛⬛⛰️⛰️⛰️⬛⬛🌱🌱🌱⬛⬛🏝️⬛⬛⬛🏝️️⬛
-                    ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
+                    ⬛⬛🦊🦊🦊🦊⬛🐇🐇🐇⬛🌱⬛⬛⬛🌱⬛🗻⬛⬛⬛🗻⬛🏝️⬛⬛⬛⬛⬛⬛🦊⬛⬛⬛🐇🐇🐇🐇🐇⬛🗻🗻🗻⬛⬛🌱🌱🌱⬛⬛🏝️⬛⬛⬛🏝️⬛
+                    ⬛🦊⬛⬛⬛⬛⬛⬛🐇⬛⬛🌱🌱⬛🌱🌱⬛🗻⬛⬛⬛🗻⬛🏝️⬛⬛⬛⬛⬛🦊⬛🦊⬛⬛⬛⬛🐇⬛⬛⬛⬛🗻⬛⬛🌱⬛⬛⬛🌱⬛🏝️🏝️️⬛⬛🏝️⬛
+                    ⬛⬛🦊🦊🦊⬛⬛⬛🐇⬛⬛🌱⬛🌱⬛🌱⬛🗻⬛⬛⬛🗻⬛🏝️⬛⬛⬛⬛🦊⬛⬛⬛🦊⬛⬛⬛🐇⬛⬛⬛⬛🗻⬛⬛🌱⬛⬛⬛🌱⬛🏝️⬛🏝️️⬛🏝️⬛
+                    ⬛⬛⬛⬛⬛🦊⬛⬛🐇⬛⬛🌱⬛⬛⬛🌱⬛🗻⬛⬛⬛🗻⬛🏝️⬛⬛⬛⬛🦊🦊🦊🦊🦊⬛⬛⬛🐇⬛⬛⬛⬛🗻⬛⬛🌱⬛⬛⬛🌱⬛🏝️⬛⬛🏝️️🏝️⬛
+                    ⬛⬛⬛⬛⬛🦊⬛⬛🐇⬛⬛🌱⬛⬛⬛🌱⬛🗻⬛⬛⬛🗻⬛🏝️⬛⬛⬛⬛🦊⬛⬛⬛🦊⬛⬛⬛🐇⬛⬛⬛⬛🗻⬛⬛🌱⬛⬛⬛🌱⬛🏝️⬛⬛⬛🏝️⬛
+                    ⬛🦊🦊🦊🦊⬛⬛🐇🐇🐇⬛🌱⬛⬛⬛🌱⬛⬛🗻🗻🗻⬛⬛🏝️🏝️🏝️🏝️⬛🦊⬛⬛⬛🦊⬛⬛⬛🐇⬛⬛⬛🗻🗻🗻⬛⬛🌱🌱🌱⬛⬛🏝️⬛⬛⬛🏝️️⬛
                     """;
             System.out.println(res);
             worldMapRenderer.render(worldMap);
             System.out.println();
 
-            for (int i = 0; i < 10; i++) {
-                for (Coordinate key : worldMap.getEntitiesCopy().keySet()) {
-                    Thread.sleep(140);
-                    if (worldMap.getEntity(key).orElse(null) instanceof Creature c) {
-                        c.makeMove(worldMap, key);
-                    }
-                }
+            for (int i = 0; i < 30; i++) {
+                moveAllCreaturesAction.execute(worldMap);
+                maintainPopulationAction.execute(worldMap);
                 worldMapRenderer.render(worldMap);
-                System.out.println();
-
             }
 
             int i = 0;
@@ -71,8 +51,6 @@ public class Main {
             for (StackTraceElement s : e.getStackTrace()) {
                 System.out.println(s.toString());
             }
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 }

@@ -1,5 +1,7 @@
 package main.java.phsimulation.config;
 
+import main.java.phsimulation.exceptions.UnknownWorldSizeException;
+
 public final class SimulationPreset {
     public static final int SMALL_WORLD_KEY = 1;
     public static final int MEDIUM_WORLD_KEY = 2;
@@ -92,7 +94,7 @@ public final class SimulationPreset {
                         .herbivoreMinCount(3)
                         .done()
                     .build();
-            default -> throw new IllegalStateException("Unexpected key value: " + size);
+            default -> throw new UnknownWorldSizeException(size);
         };
     }
 }

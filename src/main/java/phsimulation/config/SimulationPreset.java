@@ -1,11 +1,15 @@
 package main.java.phsimulation.config;
 
 public final class SimulationPreset {
+    public static final int SMALL_WORLD_KEY = 1;
+    public static final int MEDIUM_WORLD_KEY = 2;
+    public static final int LARGE_WORLD_KEY = 3;
+
     private SimulationPreset(){}
 
-    public static SimulationConfig getForSize(WorldSize size) {
+    public static SimulationConfig getForSize(int size) {
         return switch (size){
-            case SMALL -> new SimulationConfig.Builder()
+            case SMALL_WORLD_KEY -> new SimulationConfig.Builder()
                     .worldMap()
                         .height(10)
                         .width(10)
@@ -13,7 +17,7 @@ public final class SimulationPreset {
                     .predator()
                         .speed(2)
                         .maxHp(100)
-                        .attackPower(25)
+                        .attackPower(22)
                         .done()
                     .herbivore()
                         .speed(1)
@@ -33,7 +37,7 @@ public final class SimulationPreset {
                         .done()
                     .build();
 
-            case MEDIUM -> new SimulationConfig.Builder()
+            case MEDIUM_WORLD_KEY -> new SimulationConfig.Builder()
                     .worldMap()
                         .height(15)
                         .width(15)
@@ -61,7 +65,7 @@ public final class SimulationPreset {
                         .done()
                     .build();
 
-            case LARGE -> new SimulationConfig.Builder()
+            case LARGE_WORLD_KEY -> new SimulationConfig.Builder()
                     .worldMap()
                         .height(18)
                         .width(18)
@@ -88,10 +92,7 @@ public final class SimulationPreset {
                         .herbivoreMinCount(3)
                         .done()
                     .build();
+            default -> throw new IllegalStateException("Unexpected key value: " + size);
         };
-    }
-
-    public enum WorldSize {
-        SMALL, MEDIUM, LARGE;
     }
 }

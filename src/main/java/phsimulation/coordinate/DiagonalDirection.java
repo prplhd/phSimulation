@@ -15,7 +15,13 @@ public enum DiagonalDirection implements Direction {
     }
 
     @Override
-    public Coordinate apply(Coordinate coordinate) {
-        return new Coordinate(coordinate.x() + dx, coordinate.y() + dy);
+    public int dx() {
+        return dx;
     }
+
+    @Override
+    public int dy() {
+        return dy;
+    }
+
 }

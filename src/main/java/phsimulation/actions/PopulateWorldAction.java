@@ -11,7 +11,6 @@ import java.util.*;
 
 public final class PopulateWorldAction implements Action {
     private final SimulationConfig cfg;
-    private final List<Coordinate> freeCoordinates = new ArrayList<>();
     private final EntityFactory entityFactory;
 
     public PopulateWorldAction(SimulationConfig cfg) {
@@ -21,7 +20,7 @@ public final class PopulateWorldAction implements Action {
 
     @Override
     public void execute(WorldMap worldMap) {
-        generateAllCoordinates(worldMap);
+        List<Coordinate> freeCoordinates = generateAllCoordinates(worldMap);
         Collections.shuffle(freeCoordinates);
         int index = 0;
 
@@ -42,10 +41,11 @@ public final class PopulateWorldAction implements Action {
 
     }
 
-    private void generateAllCoordinates(WorldMap worldMap) {
+    private List<Coordinate> generateAllCoordinates(WorldMap worldMap) {
         int height = cfg.getWorldMapHeight();
         int width = cfg.getWorldMapWidth();
 
+        List<Coordinate> freeCoordinates = new ArrayList<>();
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 Coordinate coordinate = new Coordinate(x, y);
@@ -53,5 +53,6 @@ public final class PopulateWorldAction implements Action {
                 freeCoordinates.add(coordinate);
             }
         }
+        return freeCoordinates;
     }
 }

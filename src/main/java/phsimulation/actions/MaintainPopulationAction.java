@@ -13,7 +13,6 @@ import java.util.*;
 
 public final class MaintainPopulationAction implements Action{
     private final SimulationConfig cfg;
-    private final List<Coordinate> freeCoordinates = new ArrayList<>();
     private final EntityFactory entityFactory;
 
     public MaintainPopulationAction(SimulationConfig cfg) {
@@ -26,46 +25,43 @@ public final class MaintainPopulationAction implements Action{
         int currentHerbivoreCount = 0;
         int currentGrassCount = 0;
 
-        for (Coordinate coordinate : worldMap.getEntitiesCopy().keySet()) {
-            Entity entity = worldMap.getEntity(coordinate).orElse(null);
-
-            if (entity != null) {
-                if (entity instanceof Herbivore) {
-                    currentHerbivoreCount++;
-                }
-                if (entity instanceof Grass) {
-                    currentGrassCount++;
-                }
+        for (Entity entity : worldMap.getEntitiesCopy().values()) {
+            if (entity instanceof Herbivore) {
+                currentHerbivoreCount++;
+            }
+            if (entity instanceof Grass) {
+                currentGrassCount++;
             }
         }
 
         if (currentHerbivoreCount < cfg.getHerbivoreMinCount()) {
-            generateFreeCoordinates(worldMap);
+            List<Coordinate> freeCoordinates = generateFreeCoordinates(worldMap);
             Collections.shuffle(freeCoordinates);
 
-            int herbivoreCount = cfg.getHerbivoreCount();
-            for (int i = 0; i < herbivoreCount; i++) {
+            int neededHerbivoreCount = cfg.getHerbivoreCount() - currentHerbivoreCount;
+            for (int i = 0; i < neededHerbivoreCount; i++) {
                 Entity entity = entityFactory.create(EntityType.HERBIVORE);
                 worldMap.setEntity(freeCoordinates.get(i), entity);
             }
         }
 
         if (currentGrassCount < cfg.getGrassMinCount()) {
-            generateFreeCoordinates(worldMap);
+            List<Coordinate> freeCoordinates = generateFreeCoordinates(worldMap);
             Collections.shuffle(freeCoordinates);
 
-            int grassCount = cfg.getGrassCount();
-            for (int i = 0; i < grassCount; i++) {
+            int neededGrassCount = cfg.getGrassCount() - currentGrassCount;
+            for (int i = 0; i < neededGrassCount; i++) {
                 Entity entity = entityFactory.create(EntityType.GRASS);
                 worldMap.setEntity(freeCoordinates.get(i), entity);
             }
         }
     }
 
-    private void generateFreeCoordinates(WorldMap worldMap) {
+    private List<Coordinate> generateFreeCoordinates(WorldMap worldMap) {
         int height = cfg.getWorldMapHeight();
         int width = cfg.getWorldMapWidth();
 
+        List<Coordinate> freeCoordinates = new ArrayList<>();
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 Coordinate coordinate = new Coordinate(x, y);
@@ -76,5 +72,6 @@ public final class MaintainPopulationAction implements Action{
                 }
             }
         }
+        return freeCoordinates;
     }
 }

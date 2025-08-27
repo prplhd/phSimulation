@@ -19,7 +19,6 @@ public class Main {
 
 
     public static void main(String[] args) {
-        try {
             WelcomeMessages.printWelcomeMessages();
 
             List<Integer> presetKeys = List.of(
@@ -35,33 +34,16 @@ public class Main {
             int worldSize = simulationPresetDialog.input();
             SimulationConfig cfg = SimulationPreset.getForSize(worldSize);
 
-            WorldMap worldMap = new WorldMap(cfg.getWorldMapHeight(), cfg.getWorldMapWidth());
+            Simulation simulation = new Simulation(cfg);
 
-            PopulateWorldAction populateWorldAction = new PopulateWorldAction(cfg);
-            MaintainPopulationAction maintainPopulationAction = new MaintainPopulationAction(cfg);
-            MoveAllCreaturesAction moveAllCreaturesAction = new MoveAllCreaturesAction();
-            populateWorldAction.execute(worldMap);
-
-            WorldMapRenderer worldMapRenderer = new ConsoleWorldMapRenderer();
-            worldMapRenderer.render(worldMap);
-            System.out.println();
-
-            for (int i = 0; i < 500; i++) {
-                Thread.sleep(0);
-                moveAllCreaturesAction.execute(worldMap);
-                maintainPopulationAction.execute(worldMap);
-                worldMapRenderer.render(worldMap);
-            }
-
-            int i = 0;
+        try {
+            simulation.startSimulation();
         } catch (SimulationException e) {
             System.out.println(e.getMessage() + "\nCall chain:");
 
             for (StackTraceElement s : e.getStackTrace()) {
                 System.out.println(s.toString());
             }
-        } catch (InterruptedException e) {
-            return;
         }
     }
 }

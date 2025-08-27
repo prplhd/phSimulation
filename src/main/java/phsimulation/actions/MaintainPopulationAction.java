@@ -58,8 +58,8 @@ public final class MaintainPopulationAction implements Action{
     }
 
     private List<Coordinate> generateFreeCoordinates(WorldMap worldMap) {
-        int height = cfg.getWorldMapHeight();
-        int width = cfg.getWorldMapWidth();
+        int height = worldMap.getHeight();
+        int width = worldMap.getWidth();
 
         List<Coordinate> freeCoordinates = new ArrayList<>();
         for (int y = 0; y < height; y++) {
@@ -68,7 +68,7 @@ public final class MaintainPopulationAction implements Action{
                 worldMap.ensureInBounds(coordinate);
 
                 if(worldMap.getEntity(coordinate).isEmpty()) {
-                    freeCoordinates.add(new Coordinate(x, y));
+                    freeCoordinates.add(coordinate);
                 }
             }
         }

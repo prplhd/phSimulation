@@ -42,8 +42,8 @@ public final class PopulateWorldAction implements Action {
     }
 
     private List<Coordinate> generateAllCoordinates(WorldMap worldMap) {
-        int height = cfg.getWorldMapHeight();
-        int width = cfg.getWorldMapWidth();
+        int height = worldMap.getHeight();
+        int width = worldMap.getWidth();
 
         List<Coordinate> freeCoordinates = new ArrayList<>();
         for (int y = 0; y < height; y++) {

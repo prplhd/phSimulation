@@ -6,7 +6,8 @@ import main.java.phsimulation.WorldMap;
 import main.java.phsimulation.coordinate.Direction;
 import main.java.phsimulation.entities.Entity;
 import main.java.phsimulation.exceptions.InvalidMoveException;
-import main.java.phsimulation.pathfinding.BreadthFirstPathfinder;
+import main.java.phsimulation.pathfinding.BreadthFirstSearchPathfinder;
+import main.java.phsimulation.pathfinding.Pathfinder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public abstract class Creature extends Entity {
     }
 
     protected void moveToTarget(WorldMap worldMap, Coordinate currentPos) {
-        BreadthFirstPathfinder breadthFirstPathfinder = new BreadthFirstPathfinder(worldMap, target);
+        Pathfinder breadthFirstPathfinder = new BreadthFirstSearchPathfinder(worldMap, target);
         List<Coordinate> path = breadthFirstPathfinder.findPath(currentPos);
 
         if (path.isEmpty()) {

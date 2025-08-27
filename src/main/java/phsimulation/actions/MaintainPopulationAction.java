@@ -6,7 +6,7 @@ import main.java.phsimulation.coordinate.Coordinate;
 import main.java.phsimulation.entities.Entity;
 import main.java.phsimulation.entities.EntityType;
 import main.java.phsimulation.entities.creatures.Herbivore;
-import main.java.phsimulation.entities.factory.EntityFactory;
+import main.java.phsimulation.entities.EntityFactory;
 import main.java.phsimulation.entities.terrain.Grass;
 
 import java.util.*;

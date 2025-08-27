@@ -1,15 +1,11 @@
-package main.java.phsimulation.entities.factory;
+package main.java.phsimulation.entities;
 
 import main.java.phsimulation.config.SimulationConfig;
-import main.java.phsimulation.entities.Entity;
-import main.java.phsimulation.entities.EntityType;
 import main.java.phsimulation.entities.creatures.Herbivore;
 import main.java.phsimulation.entities.creatures.Predator;
 import main.java.phsimulation.entities.terrain.Grass;
 import main.java.phsimulation.entities.terrain.Rock;
 import main.java.phsimulation.entities.terrain.Tree;
-
-import javax.lang.model.UnknownEntityException;
 
 public final class EntityFactory {
     private SimulationConfig cfg;

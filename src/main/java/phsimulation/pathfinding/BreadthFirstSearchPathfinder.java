@@ -9,12 +9,12 @@ import main.java.phsimulation.exceptions.InvalidCoordinateException;
 
 import java.util.*;
 
-public class BreadthFirstPathfinder implements Pathfinder {
+public class BreadthFirstSearchPathfinder implements Pathfinder {
 
     private final WorldMap worldMap;
     private final Class<? extends Entity> target;
 
-    public BreadthFirstPathfinder(WorldMap worldMap, Class<? extends Entity> target) {
+    public BreadthFirstSearchPathfinder(WorldMap worldMap, Class<? extends Entity> target) {
         this.worldMap = worldMap;
         this.target = target;
     }

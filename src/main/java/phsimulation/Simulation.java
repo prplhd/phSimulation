@@ -31,15 +31,27 @@ public class Simulation {
         for (Action action : initActions) {
             action.execute(worldMap);
         }
-        worldMapRenderer.render(worldMap);
+        render();
+        waitForNextTurn(1000);
 
         for (int i = 0; i < 500; i++) {
             for (Action action : turnActions) {
                 action.execute(worldMap);
             }
-            worldMapRenderer.render(worldMap);
+            render();
+            waitForNextTurn(1000);
         }
     }
 
+    public void render() {
+        worldMapRenderer.render(worldMap);
+    }
 
+    public void waitForNextTurn(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException();
+        }
+    }
 }

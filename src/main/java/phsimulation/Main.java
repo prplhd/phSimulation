@@ -1,18 +1,10 @@
 package main.java.phsimulation;
 
-import main.java.phsimulation.actions.MaintainPopulationAction;
-import main.java.phsimulation.actions.MoveAllCreaturesAction;
-import main.java.phsimulation.actions.PopulateWorldAction;
 import main.java.phsimulation.config.SimulationConfig;
 import main.java.phsimulation.config.SimulationPreset;
-import main.java.phsimulation.coordinate.Coordinate;
 import main.java.phsimulation.dialogs.Dialog;
 import main.java.phsimulation.dialogs.IntegerSelectDialog;
-import main.java.phsimulation.exceptions.InvalidCoordinateException;
-import main.java.phsimulation.exceptions.InvalidMoveException;
 import main.java.phsimulation.exceptions.SimulationException;
-import main.java.phsimulation.rendering.ConsoleWorldMapRenderer;
-import main.java.phsimulation.rendering.WorldMapRenderer;
 import main.java.phsimulation.messages.DialogMessages;
 import main.java.phsimulation.messages.WelcomeMessages;
 

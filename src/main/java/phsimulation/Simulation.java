@@ -12,46 +12,109 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation {
-    private final SimulationConfig cfg;
     private final WorldMap worldMap;
     private final WorldMapRenderer worldMapRenderer;
     private final List<Action> initActions = new ArrayList<>();
     private final List<Action> turnActions = new ArrayList<>();
+    private final Object lock = new Object();
+    private volatile boolean running = true;
+    private volatile boolean paused;
+    private int turnCounter = 0;
 
     public Simulation(SimulationConfig cfg) {
-        this.cfg = cfg;
         this.worldMap = new WorldMap(cfg.getWorldMapHeight(), cfg.getWorldMapWidth());
         this.worldMapRenderer = new ConsoleWorldMapRenderer();
         initActions.add(new PopulateWorldAction(cfg));
         turnActions.add(new MoveAllCreaturesAction());
         turnActions.add(new MaintainPopulationAction(cfg));
+
     }
 
     public void startSimulation() {
-        for (Action action : initActions) {
+        incrementAndPrintTurnCounter();
+        makeTurn(initActions);
+        printControlCommands();
+        delayBeforeNextTurn();
+
+        while (running) {
+            synchronized (lock) {
+                while (paused) {
+                    try {
+                        lock.wait();
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        return;
+                    }
+                }
+            }
+            incrementAndPrintTurnCounter();
+            makeTurn(turnActions);
+            printControlCommands();
+            delayBeforeNextTurn();
+        }
+    }
+
+    public void nextTurn() {
+        incrementAndPrintTurnCounter();
+        makeTurn(turnActions);
+        printControlCommands();
+    }
+
+    public void pauseSimulation() {
+        synchronized (lock) {
+            paused = true;
+        }
+    }
+
+    public void resumeSimulation() {
+        synchronized (lock) {
+            paused = false;
+            lock.notifyAll();
+        }
+    }
+
+    public void stopSimulation() {
+        running = false;
+        resumeSimulation();
+    }
+
+    private void incrementAndPrintTurnCounter() {
+        turnCounter++;
+        System.out.printf("""
+                
+                ────═ Ход: %d ═────
+                """, turnCounter);
+    }
+
+    private void printControlCommands() {
+        System.out.printf("""
+                ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+                  %d. Пауза         %d. Продолжить
+                  %d. Сделать ход   %d. Выйти
+                ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+                """, SimulationLauncher.COMMAND_PAUSE,
+                SimulationLauncher.COMMAND_RESUME,
+                SimulationLauncher.COMMAND_NEXT_TURN,
+                SimulationLauncher.COMMAND_EXIT);
+    }
+
+    private void makeTurn(List<Action> actions) {
+        for (Action action : actions) {
             action.execute(worldMap);
         }
         render();
-        waitForNextTurn(1000);
-
-        for (int i = 0; i < 500; i++) {
-            for (Action action : turnActions) {
-                action.execute(worldMap);
-            }
-            render();
-            waitForNextTurn(1000);
-        }
     }
 
-    public void render() {
+
+    private void render() {
         worldMapRenderer.render(worldMap);
     }
 
-    public void waitForNextTurn(long millis) {
+    private void delayBeforeNextTurn() {
         try {
-            Thread.sleep(millis);
+            Thread.sleep(2200);
         } catch (InterruptedException e) {
-            throw new RuntimeException();
+            Thread.currentThread().interrupt();
         }
     }
 }

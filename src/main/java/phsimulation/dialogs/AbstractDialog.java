@@ -6,14 +6,14 @@ import java.util.function.Predicate;
 
 public abstract class AbstractDialog<T> implements Dialog<T>{
     protected String title;
-    protected String invalidInput;
+    protected String error;
     private final Function<String, T> mapper;
     private final Predicate<T> validator;
     protected Scanner scanner = new Scanner(System.in);
 
     protected AbstractDialog(String title, String error, Function<String, T> mapper, Predicate<T> validator) {
         this.title = title;
-        this.invalidInput = error;
+        this.error = error;
         this.mapper = mapper;
         this.validator = validator;
     }
@@ -22,8 +22,8 @@ public abstract class AbstractDialog<T> implements Dialog<T>{
         System.out.println(title);
     }
 
-    protected void showInvalidInput() {
-        System.out.println(invalidInput);
+    protected void showError() {
+        System.out.println(error);
     }
 
     @Override
@@ -40,7 +40,7 @@ public abstract class AbstractDialog<T> implements Dialog<T>{
             } catch (IllegalArgumentException ignored) {
             }
 
-            showInvalidInput();
+            showError();
         }
     }
 }

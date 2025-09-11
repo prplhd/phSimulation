@@ -1,8 +1,8 @@
 package main.java.phsimulation.entities.creatures;
 
 import main.java.phsimulation.WorldMap;
+import main.java.phsimulation.coordinate.AxisDirection;
 import main.java.phsimulation.coordinate.Coordinate;
-import main.java.phsimulation.coordinate.DiagonalDirection;
 import main.java.phsimulation.coordinate.Direction;
 import main.java.phsimulation.entities.Entity;
 
@@ -23,8 +23,9 @@ public final  class Predator extends Creature {
             return result;
         }
 
-        for (Direction direction : DiagonalDirection.values()) {
-            Coordinate neighbourPos = direction.shift(currentPos);
+        Direction direction = new AxisDirection();
+        for (Coordinate shiftCoordinate : direction.get()) {
+            Coordinate neighbourPos = currentPos.shift(shiftCoordinate);
 
             if (!worldMap.isInBounds(neighbourPos)) {
                 continue;

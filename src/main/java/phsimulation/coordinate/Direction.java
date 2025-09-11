@@ -1,10 +1,7 @@
 package main.java.phsimulation.coordinate;
 
-public interface Direction {
-    int dx();
-    int dy();
+import java.util.List;
 
-    default Coordinate shift(Coordinate coordinate) {
-        return new Coordinate(coordinate.x() + dx(), coordinate.y() + dy());
-    }
+public interface Direction {
+    List<Coordinate> get();
 }

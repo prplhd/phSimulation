@@ -77,8 +77,9 @@ public abstract class Creature extends Entity {
 
     protected void moveRandomly(WorldMap worldMap, Coordinate currentPos) {
         List<Coordinate> availableCoordinates = new ArrayList<>();
-        for (Direction direction: AxisDirection.values()) {
-            Coordinate neighbourPos = direction.shift(currentPos);
+        Direction direction = new AxisDirection();
+        for (Coordinate shiftCoordinate : direction.get()) {
+            Coordinate neighbourPos = currentPos.shift(shiftCoordinate);
             if (!worldMap.isInBounds(neighbourPos)) {
                 continue;
             }
@@ -99,8 +100,9 @@ public abstract class Creature extends Entity {
     }
 
     protected Optional<Coordinate> findTargetNearby(WorldMap worldMap, Coordinate currentPos) {
-        for (Direction direction :  AxisDirection.values()) {
-            Coordinate neighbourPos = direction.shift(currentPos);
+        Direction direction = new AxisDirection();
+        for (Coordinate shiftCoordinate : direction.get()) {
+            Coordinate neighbourPos = currentPos.shift(shiftCoordinate);
 
             if (!worldMap.isInBounds(neighbourPos)) {
                 continue;

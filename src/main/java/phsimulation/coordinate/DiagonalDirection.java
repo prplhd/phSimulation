@@ -1,27 +1,18 @@
 package main.java.phsimulation.coordinate;
 
-public enum DiagonalDirection implements Direction {
-    UP_RIGHT(1, 1),
-    DOWN_RIGHT(1, -1),
-    DOWN_LEFT(-1, -1),
-    UP_LEFT(-1, 1);
+import java.util.List;
 
-    public final int dx;
-    public final int dy;
-
-    DiagonalDirection(int dx, int dy) {
-        this.dx = dx;
-        this.dy = dy;
-    }
+public class DiagonalDirection implements Direction {
+    private static final List<Coordinate> SHIFT_COORDINATES = List.of(
+            new Coordinate(1, 1),
+            new Coordinate(1, -1),
+            new Coordinate(-1, -1),
+            new Coordinate(-1, 1)
+    );
 
     @Override
-    public int dx() {
-        return dx;
-    }
-
-    @Override
-    public int dy() {
-        return dy;
+    public List<Coordinate> get() {
+        return SHIFT_COORDINATES;
     }
 
 }

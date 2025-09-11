@@ -24,7 +24,7 @@ public final  class Predator extends Creature {
         }
 
         for (Direction direction : DiagonalDirection.values()) {
-            Coordinate neighbourPos = direction.apply(currentPos);
+            Coordinate neighbourPos = direction.shift(currentPos);
 
             if (!worldMap.isInBounds(neighbourPos)) {
                 continue;

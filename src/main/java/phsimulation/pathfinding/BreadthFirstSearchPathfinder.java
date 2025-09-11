@@ -43,7 +43,7 @@ public class BreadthFirstSearchPathfinder implements Pathfinder {
             }
 
             for (Direction direction : AxisDirection.values()) {
-                Coordinate neighbourPos = direction.apply(currentPos);
+                Coordinate neighbourPos = direction.shift(currentPos);
 
                 if (isAvailable(neighbourPos, visited)) {
                     frontier.add(neighbourPos);

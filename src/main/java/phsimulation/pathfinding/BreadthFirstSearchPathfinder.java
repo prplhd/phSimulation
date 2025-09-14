@@ -11,15 +11,7 @@ import java.util.*;
 
 public class BreadthFirstSearchPathfinder implements Pathfinder {
 
-    private final WorldMap worldMap;
-    private final Class<? extends Entity> target;
-
-    public BreadthFirstSearchPathfinder(WorldMap worldMap, Class<? extends Entity> target) {
-        this.worldMap = worldMap;
-        this.target = target;
-    }
-
-    public List<Coordinate> findPath(Coordinate start) {
+    public List<Coordinate> findPath(WorldMap worldMap, Coordinate start, Class<? extends Entity> target) {
         Queue<Coordinate> frontier = new LinkedList<>();
         Set<Coordinate> visited = new HashSet<>();
         Map<Coordinate, Coordinate> cameFrom = new HashMap<>();
@@ -46,7 +38,7 @@ public class BreadthFirstSearchPathfinder implements Pathfinder {
             for (Coordinate shiftCoordinate : direction.get()) {
                 Coordinate neighbourPos = currentPos.shift(shiftCoordinate);
 
-                if (isAvailable(neighbourPos, visited)) {
+                if (isAvailable(worldMap, neighbourPos, visited, target)) {
                     frontier.add(neighbourPos);
                     visited.add(neighbourPos);
                     cameFrom.put(neighbourPos, currentPos);
@@ -57,7 +49,7 @@ public class BreadthFirstSearchPathfinder implements Pathfinder {
         return List.of();
     }
 
-    private boolean isAvailable(Coordinate neighbourPos, Set<Coordinate> visited) {
+    private boolean isAvailable(WorldMap worldMap, Coordinate neighbourPos, Set<Coordinate> visited, Class<? extends Entity> target) {
         try {
             Entity entity = worldMap.getEntity(neighbourPos).orElse(null);
             boolean isEmptyOrTarget = (entity == null) || target.isInstance(entity);

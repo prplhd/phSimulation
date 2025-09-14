@@ -1,6 +1,7 @@
 package main.java.phsimulation.config;
 
 import main.java.phsimulation.exceptions.UnknownWorldSizeException;
+import main.java.phsimulation.pathfinding.BreadthFirstSearchPathfinder;
 
 public final class SimulationPreset {
     public static final int SMALL_WORLD_KEY = 1;
@@ -37,6 +38,7 @@ public final class SimulationPreset {
                         .grassMinCount(3)
                         .herbivoreMinCount(1)
                         .done()
+                    .pathfinder(new BreadthFirstSearchPathfinder())
                     .build();
 
             case MEDIUM_WORLD_KEY -> new SimulationConfig.Builder()
@@ -65,6 +67,7 @@ public final class SimulationPreset {
                         .grassMinCount(6)
                         .herbivoreMinCount(2)
                         .done()
+                    .pathfinder(new BreadthFirstSearchPathfinder())
                     .build();
 
             case LARGE_WORLD_KEY -> new SimulationConfig.Builder()
@@ -93,6 +96,7 @@ public final class SimulationPreset {
                         .grassMinCount(9)
                         .herbivoreMinCount(3)
                         .done()
+                    .pathfinder(new BreadthFirstSearchPathfinder())
                     .build();
             default -> throw new UnknownWorldSizeException(size);
         };

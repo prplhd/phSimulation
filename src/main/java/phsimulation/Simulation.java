@@ -25,9 +25,8 @@ public class Simulation {
         this.worldMap = new WorldMap(cfg.getWorldMapHeight(), cfg.getWorldMapWidth());
         this.worldMapRenderer = new ConsoleWorldMapRenderer();
         initActions.add(new PopulateWorldAction(cfg));
-        turnActions.add(new MoveAllCreaturesAction());
+        turnActions.add(new MoveAllCreaturesAction(cfg));
         turnActions.add(new MaintainPopulationAction(cfg));
-
     }
 
     public void startSimulation() {

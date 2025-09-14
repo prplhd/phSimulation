@@ -27,19 +27,18 @@ public abstract class Creature extends Entity {
         this.target = target;
     }
 
-    public void makeMove(WorldMap worldMap, Coordinate currentPos) {
+    public void makeMove(WorldMap worldMap, Coordinate currentPos, Pathfinder pathfinder) {
         Optional<Coordinate> targetNearby = findTargetNearby(worldMap, currentPos);
         if (targetNearby.isPresent()) {
             interactWithTarget(worldMap, currentPos, targetNearby.get());
             return;
         }
 
-        moveToTarget(worldMap, currentPos);
+        moveToTarget(worldMap, currentPos, pathfinder);
     }
 
-    protected void moveToTarget(WorldMap worldMap, Coordinate currentPos) {
-        Pathfinder breadthFirstPathfinder = new BreadthFirstSearchPathfinder(worldMap, target);
-        List<Coordinate> path = breadthFirstPathfinder.findPath(currentPos);
+    protected void moveToTarget(WorldMap worldMap, Coordinate currentPos, Pathfinder pathfinder) {
+        List<Coordinate> path = pathfinder.findPath(worldMap, currentPos, target);
 
         if (path.isEmpty()) {
             moveRandomly(worldMap, currentPos);

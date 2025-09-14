@@ -7,6 +7,8 @@ import main.java.phsimulation.dialogs.IntegerSelectDialog;
 import main.java.phsimulation.exceptions.SimulationException;
 import main.java.phsimulation.messages.DialogMessages;
 import main.java.phsimulation.messages.WelcomeMessages;
+import main.java.phsimulation.pathfinding.BreadthFirstSearchPathfinder;
+import main.java.phsimulation.pathfinding.Pathfinder;
 
 import java.util.List;
 

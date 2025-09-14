@@ -25,7 +25,7 @@ public final class MaintainPopulationAction implements Action{
         int currentHerbivoreCount = 0;
         int currentGrassCount = 0;
 
-        for (Entity entity : worldMap.getEntitiesCopy().values()) {
+        for (Entity entity : worldMap.toMap().values()) {
             if (entity instanceof Herbivore) {
                 currentHerbivoreCount++;
             }

@@ -16,7 +16,7 @@ public class WorldMap {
         this.width = width;
     }
 
-    public Map<Coordinate, Entity> getEntitiesCopy() {
+    public Map<Coordinate, Entity> toMap() {
         return new HashMap<>(entities);
     }
 

@@ -1,5 +1,7 @@
 package main.java.phsimulation.config;
 
+import main.java.phsimulation.pathfinding.Pathfinder;
+
 public final class SimulationConfig{
     private final int worldMapHeight;
     private final int worldMapWidth;
@@ -21,6 +23,8 @@ public final class SimulationConfig{
     private final int grassMinCount;
     private final int herbivoreMinCount;
 
+    private final Pathfinder pathfinder;
+
     private SimulationConfig(Builder builder) {
         this.worldMapHeight = builder.worldMapHeight;
         this.worldMapWidth = builder.worldMapWidth;
@@ -41,6 +45,8 @@ public final class SimulationConfig{
 
         this.grassMinCount = builder.grassMinCount;
         this.herbivoreMinCount = builder.herbivoreMinCount;
+
+        this.pathfinder = builder.pathfinder;
     }
 
     public static class Builder {
@@ -63,6 +69,8 @@ public final class SimulationConfig{
 
         private int grassMinCount;
         private int herbivoreMinCount;
+
+        private Pathfinder pathfinder;
 
         public static class WorldMapBuilder {
             private final Builder builder;
@@ -249,6 +257,11 @@ public final class SimulationConfig{
             return new MinCountsBuilder(this);
         }
 
+        public Builder pathfinder(Pathfinder pathfinder) {
+            this.pathfinder = pathfinder;
+            return this;
+        }
+
         public SimulationConfig build() {
             SimulationConfig cfg = new SimulationConfig(this);
             SimulationConfigValidator.validate(cfg);
@@ -314,5 +327,9 @@ public final class SimulationConfig{
 
     public int getHerbivoreMinCount() {
         return herbivoreMinCount;
+    }
+
+    public Pathfinder getPathfinder() {
+        return pathfinder;
     }
 }

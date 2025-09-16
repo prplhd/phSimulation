@@ -1,14 +1,17 @@
 package main.java.phsimulation.entities.creatures;
 
 import main.java.phsimulation.WorldMap;
+import main.java.phsimulation.coordinate.AxisDirection;
 import main.java.phsimulation.coordinate.Coordinate;
+import main.java.phsimulation.coordinate.Direction;
 import main.java.phsimulation.entities.terrain.Grass;
 
 public class Herbivore extends Creature {
+    private static final Direction INTERACTION_DIRECTION = new AxisDirection();
     private final int hpRestoredPerGrass;
 
     public Herbivore(int speed, int maxHp, int hpRestoredPerGrass) {
-        super(speed, maxHp, Grass.class);
+        super(speed, maxHp, Grass.class, INTERACTION_DIRECTION);
         this.hpRestoredPerGrass = hpRestoredPerGrass;
     }
 

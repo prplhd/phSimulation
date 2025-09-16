@@ -24,7 +24,7 @@ public final class MoveAllCreaturesAction implements Action{
             }
 
             if (optional.get() instanceof Creature c) {
-                c.makeMove(worldMap, coordinate, cfg.getPathfinder());
+                c.makeMove(worldMap, cfg.getPathfinder());
             }
         }
     }

@@ -5,8 +5,8 @@ import main.java.phsimulation.coordinate.Coordinate;
 import main.java.phsimulation.WorldMap;
 import main.java.phsimulation.coordinate.Direction;
 import main.java.phsimulation.entities.Entity;
+import main.java.phsimulation.exceptions.EntityNotOnMapException;
 import main.java.phsimulation.exceptions.InvalidMoveException;
-import main.java.phsimulation.pathfinding.BreadthFirstSearchPathfinder;
 import main.java.phsimulation.pathfinding.Pathfinder;
 
 import java.util.ArrayList;
@@ -19,15 +19,20 @@ public abstract class Creature extends Entity {
     protected final int maxHp;
     protected int hp;
     protected final Class<? extends Entity> target;
+    protected final Direction interactionDirection;
 
-    protected Creature(int speed, int maxHp, Class<? extends Entity> target) {
+    protected Creature(int speed, int maxHp, Class<? extends Entity> target, Direction interactionDirection) {
         this.speed = speed;
         this.maxHp = maxHp;
         this.hp = maxHp;
         this.target = target;
+        this.interactionDirection = interactionDirection;
     }
 
-    public void makeMove(WorldMap worldMap, Coordinate currentPos, Pathfinder pathfinder) {
+    public void makeMove(WorldMap worldMap, Pathfinder pathfinder) {
+        Coordinate currentPos = worldMap.getCoordinate(this)
+                .orElseThrow(() -> new EntityNotOnMapException(this));
+
         Optional<Coordinate> targetNearby = findTargetNearby(worldMap, currentPos);
         if (targetNearby.isPresent()) {
             interactWithTarget(worldMap, currentPos, targetNearby.get());
@@ -99,8 +104,7 @@ public abstract class Creature extends Entity {
     }
 
     protected Optional<Coordinate> findTargetNearby(WorldMap worldMap, Coordinate currentPos) {
-        Direction direction = new AxisDirection();
-        for (Coordinate shiftCoordinate : direction.get()) {
+        for (Coordinate shiftCoordinate : interactionDirection.get()) {
             Coordinate neighbourPos = currentPos.shift(shiftCoordinate);
 
             if (!worldMap.isInBounds(neighbourPos)) {

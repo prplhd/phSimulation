@@ -45,6 +45,15 @@ public class WorldMap {
         return Optional.ofNullable(entities.get(coordinate));
     }
 
+    public Optional<Coordinate> getCoordinate(Entity entity) {
+        for (var e : entities.entrySet()) {
+            if (e.getValue() == entity) {
+                return Optional.of(e.getKey());
+            }
+        }
+        return Optional.empty();
+    }
+
     public void setEntity(Coordinate coordinate, Entity entity) {
         ensureInBounds(coordinate);
         entities.put(coordinate, entity);

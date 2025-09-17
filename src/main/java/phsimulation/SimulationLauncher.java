@@ -1,14 +1,12 @@
 package main.java.phsimulation;
 
 import main.java.phsimulation.config.SimulationConfig;
-import main.java.phsimulation.config.SimulationPreset;
+import main.java.phsimulation.config.SimulationFactory;
 import main.java.phsimulation.dialogs.Dialog;
 import main.java.phsimulation.dialogs.IntegerSelectDialog;
 import main.java.phsimulation.exceptions.SimulationException;
 import main.java.phsimulation.messages.DialogMessages;
 import main.java.phsimulation.messages.WelcomeMessages;
-import main.java.phsimulation.pathfinding.BreadthFirstSearchPathfinder;
-import main.java.phsimulation.pathfinding.Pathfinder;
 
 import java.util.List;
 
@@ -29,7 +27,7 @@ public class SimulationLauncher {
         WelcomeMessages.printWelcomeMessages();
 
         int worldSizeKey = getWorldSizeKey();
-        SimulationConfig cfg = SimulationPreset.getForSize(worldSizeKey);
+        SimulationConfig cfg = SimulationFactory.getForSize(worldSizeKey);
         Simulation simulation = new Simulation(cfg);
 
         Thread simulationThread = new Thread(() -> {
@@ -50,9 +48,9 @@ public class SimulationLauncher {
 
     private static int getWorldSizeKey() {
         List<Integer> presetKeys = List.of(
-                SimulationPreset.SMALL_WORLD_KEY,
-                SimulationPreset.MEDIUM_WORLD_KEY,
-                SimulationPreset.LARGE_WORLD_KEY);
+                SimulationFactory.SMALL_WORLD_KEY,
+                SimulationFactory.MEDIUM_WORLD_KEY,
+                SimulationFactory.LARGE_WORLD_KEY);
 
         Dialog<Integer> presetSelectDialog = new IntegerSelectDialog(
                 DialogMessages.PRESET_SELECT_DIALOG_TITLE,

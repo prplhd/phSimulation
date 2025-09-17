@@ -6,7 +6,8 @@ import main.java.phsimulation.WorldMap;
 import main.java.phsimulation.coordinate.Direction;
 import main.java.phsimulation.entities.Entity;
 import main.java.phsimulation.exceptions.EntityNotOnMapException;
-import main.java.phsimulation.exceptions.InvalidMoveException;
+import main.java.phsimulation.exceptions.SourceEntityNotFoundException;
+import main.java.phsimulation.exceptions.TargetCellOccupiedException;
 import main.java.phsimulation.pathfinding.Pathfinder;
 
 import java.util.ArrayList;
@@ -69,12 +70,12 @@ public abstract class Creature extends Entity {
     protected void moveTo(WorldMap worldMap, Coordinate currentPos, Coordinate newPos) {
         Entity currentPosEntity = worldMap.getEntity(currentPos).orElse(null);
         if (currentPosEntity != this) {
-            throw InvalidMoveException.missingSourceEntity(currentPos);
+            throw new SourceEntityNotFoundException(currentPos);
         }
 
         Entity newPosEntity = worldMap.getEntity(newPos).orElse(null);
         if (newPosEntity != null) {
-            throw InvalidMoveException.targetOccupied(newPos);
+            throw new TargetCellOccupiedException(newPos);
         }
 
         worldMap.removeEntity(currentPos);

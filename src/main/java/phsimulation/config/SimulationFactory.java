@@ -11,7 +11,7 @@ public final class SimulationFactory {
     private SimulationFactory(){}
 
     public static SimulationConfig getForSize(int size) {
-        return switch (size){
+        return switch (size) {
             case SMALL_WORLD_KEY -> createSmallSimulationConfig();
             case MEDIUM_WORLD_KEY -> createMediumSimulationConfig();
             case LARGE_WORLD_KEY -> createLargeSimulationConfig();

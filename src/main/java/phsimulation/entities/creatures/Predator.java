@@ -6,29 +6,26 @@ import main.java.phsimulation.coordinate.Direction;
 import main.java.phsimulation.coordinate.EightWayDirection;
 import main.java.phsimulation.entities.Entity;
 
-public final  class Predator extends Creature {
+public final class Predator extends Creature {
     private static final Direction INTERACTION_DIRECTION = new EightWayDirection();
-    private final int attackPower;
+    private final int attackDamage;
 
-    public Predator(int speed, int maxHp, int attackPower) {
-        super(speed, maxHp, Herbivore.class, INTERACTION_DIRECTION);
-        this.attackPower = attackPower;
+    public Predator(int speed, int maxHp, int attackDamage) {
+        super(speed, maxHp, attackDamage, Herbivore.class, INTERACTION_DIRECTION);
+        this.attackDamage = attackDamage;
     }
 
     @Override
-    protected void interactWithTarget(WorldMap worldMap, Coordinate currentPos, Coordinate targetPos) {
+    protected void interactWithTarget(WorldMap worldMap, Coordinate targetPos) {
         Entity entity = worldMap.getEntity(targetPos).orElse(null);
 
         if (entity instanceof Herbivore herbivore) {
-            herbivore.takeDamage(attackPower);
+            herbivore.takeDamage(attackDamage);
             if(herbivore.getHp() <= 0) {
                 worldMap.removeEntity(targetPos);
             }
 
-            hp += attackPower;
-            if (hp > maxHp) {
-                hp = maxHp;
-            }
+        heal();
         }
     }
 }

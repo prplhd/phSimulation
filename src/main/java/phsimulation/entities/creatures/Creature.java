@@ -17,16 +17,18 @@ import java.util.Random;
 public abstract class Creature extends Entity {
     protected final int speed;
     protected final int maxHp;
-    protected int hp;
+    protected final int hpRestoredPerInteraction;
     protected final Class<? extends Entity> target;
     protected final Direction interactionDirection;
+    protected int hp;
 
-    protected Creature(int speed, int maxHp, Class<? extends Entity> target, Direction interactionDirection) {
+    protected Creature(int speed, int maxHp, int hpRestoredPerInteraction, Class<? extends Entity> target, Direction interactionDirection) {
         this.speed = speed;
         this.maxHp = maxHp;
-        this.hp = maxHp;
+        this.hpRestoredPerInteraction = hpRestoredPerInteraction;
         this.target = target;
         this.interactionDirection = interactionDirection;
+        this.hp = maxHp;
     }
 
     public void makeMove(WorldMap worldMap, Pathfinder pathfinder) {
@@ -35,7 +37,7 @@ public abstract class Creature extends Entity {
 
         Optional<Coordinate> targetNearby = findTargetNearby(worldMap, currentPos);
         if (targetNearby.isPresent()) {
-            interactWithTarget(worldMap, currentPos, targetNearby.get());
+            interactWithTarget(worldMap, targetNearby.get());
             return;
         }
 
@@ -120,5 +122,12 @@ public abstract class Creature extends Entity {
         return Optional.empty();
     }
 
-    protected abstract void interactWithTarget(WorldMap worldMap, Coordinate currentPos, Coordinate targetPos);
+    protected void heal() {
+        hp += hpRestoredPerInteraction;
+        if (hp > maxHp) {
+            hp = maxHp;
+        }
+    }
+
+    protected abstract void interactWithTarget(WorldMap worldMap, Coordinate targetPos);
 }

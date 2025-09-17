@@ -6,22 +6,17 @@ import main.java.phsimulation.coordinate.Coordinate;
 import main.java.phsimulation.coordinate.Direction;
 import main.java.phsimulation.entities.terrain.Grass;
 
-public class Herbivore extends Creature {
+public final class Herbivore extends Creature {
     private static final Direction INTERACTION_DIRECTION = new AxisDirection();
-    private final int hpRestoredPerGrass;
 
-    public Herbivore(int speed, int maxHp, int hpRestoredPerGrass) {
-        super(speed, maxHp, Grass.class, INTERACTION_DIRECTION);
-        this.hpRestoredPerGrass = hpRestoredPerGrass;
+    public Herbivore(int speed, int maxHp, int hpRestoredPerInteraction) {
+        super(speed, maxHp, hpRestoredPerInteraction, Grass.class, INTERACTION_DIRECTION);
     }
 
     @Override
-    protected void interactWithTarget(WorldMap worldMap, Coordinate currentPos, Coordinate targetPos) {
+    protected void interactWithTarget(WorldMap worldMap, Coordinate targetPos) {
         worldMap.removeEntity(targetPos);
-        hp += hpRestoredPerGrass;
-        if (hp > maxHp) {
-            hp = maxHp;
-        }
+        heal();
     }
 
     public void takeDamage(int damage) {

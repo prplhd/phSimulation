@@ -1,6 +1,6 @@
 package main.java.phsimulation.messages;
 
-import main.java.phsimulation.config.SimulationPreset;
+import main.java.phsimulation.config.SimulationFactory;
 
 public final class DialogMessages {
     public static final String PRESET_SELECT_DIALOG_TITLE = """
@@ -8,7 +8,7 @@ public final class DialogMessages {
             %d. Маленький
             %d. Средний
             %d. Большой
-            """.formatted(SimulationPreset.SMALL_WORLD_KEY, SimulationPreset.MEDIUM_WORLD_KEY, SimulationPreset.LARGE_WORLD_KEY);
+            """.formatted(SimulationFactory.SMALL_WORLD_KEY, SimulationFactory.MEDIUM_WORLD_KEY, SimulationFactory.LARGE_WORLD_KEY);
 
     public static final String PRESET_SELECT_DIALOG_ERROR = "Неверный ввод. Попробуйте еще раз \n";
 

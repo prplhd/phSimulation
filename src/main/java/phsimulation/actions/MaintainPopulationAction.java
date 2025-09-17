@@ -35,25 +35,23 @@ public final class MaintainPopulationAction implements Action{
         }
 
         if (currentHerbivoreCount < cfg.getHerbivoreMinCount()) {
-            List<Coordinate> freeCoordinates = generateFreeCoordinates(worldMap);
-            Collections.shuffle(freeCoordinates);
-
-            int neededHerbivoreCount = cfg.getHerbivoreCount() - currentHerbivoreCount;
-            for (int i = 0; i < neededHerbivoreCount; i++) {
-                Entity entity = entityFactory.create(EntityType.HERBIVORE);
-                worldMap.setEntity(freeCoordinates.get(i), entity);
-            }
+            maintainPopulation(worldMap, EntityType.HERBIVORE, cfg.getHerbivoreCount(), currentHerbivoreCount);
         }
 
         if (currentGrassCount < cfg.getGrassMinCount()) {
-            List<Coordinate> freeCoordinates = generateFreeCoordinates(worldMap);
-            Collections.shuffle(freeCoordinates);
+            maintainPopulation(worldMap, EntityType.GRASS, cfg.getGrassCount(), currentGrassCount);
 
-            int neededGrassCount = cfg.getGrassCount() - currentGrassCount;
-            for (int i = 0; i < neededGrassCount; i++) {
-                Entity entity = entityFactory.create(EntityType.GRASS);
-                worldMap.setEntity(freeCoordinates.get(i), entity);
-            }
+        }
+    }
+
+    private void maintainPopulation(WorldMap worldMap, EntityType entityType, int entityCount, int currentEntityCount) {
+        List<Coordinate> freeCoordinates = generateFreeCoordinates(worldMap);
+        Collections.shuffle(freeCoordinates);
+
+        int neededEntityCount = entityCount - currentEntityCount;
+        for (int i = 0; i < neededEntityCount; i++) {
+            Entity entity = entityFactory.create(entityType);
+            worldMap.setEntity(freeCoordinates.get(i), entity);
         }
     }
 

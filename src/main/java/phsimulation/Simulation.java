@@ -5,7 +5,6 @@ import main.java.phsimulation.actions.MaintainPopulationAction;
 import main.java.phsimulation.actions.MoveAllCreaturesAction;
 import main.java.phsimulation.actions.PopulateWorldAction;
 import main.java.phsimulation.config.SimulationConfig;
-import main.java.phsimulation.rendering.ConsoleWorldMapRenderer;
 import main.java.phsimulation.rendering.WorldMapRenderer;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class Simulation {
 
     public Simulation(SimulationConfig cfg) {
         this.worldMap = new WorldMap(cfg.getWorldMapHeight(), cfg.getWorldMapWidth());
-        this.worldMapRenderer = new ConsoleWorldMapRenderer();
+        this.worldMapRenderer = cfg.getWorldMapRenderer();
         initActions.add(new PopulateWorldAction(cfg));
         turnActions.add(new MoveAllCreaturesAction(cfg));
         turnActions.add(new MaintainPopulationAction(cfg));

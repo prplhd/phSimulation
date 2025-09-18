@@ -1,7 +1,6 @@
 package main.java.phsimulation.rendering;
 
 import main.java.phsimulation.entities.creatures.Herbivore;
-import main.java.phsimulation.exceptions.UnknownEntityException;
 import main.java.phsimulation.coordinate.Coordinate;
 import main.java.phsimulation.WorldMap;
 import main.java.phsimulation.entities.*;
@@ -9,14 +8,19 @@ import main.java.phsimulation.entities.*;
 import java.util.Optional;
 
 
-public class ConsoleWorldMapRenderer implements WorldMapRenderer {
+public class ConsoleEmojiWorldMapRenderer implements WorldMapRenderer {
     private static final String ANSI_BLACK_BACKGROUND = "\u001B[0;100m";
     private static final String ANSI_DARK_MAROON_BACKGROUND = "\u001B[48;2;128;0;0m";
     private static final String ANSI_DARK_YELLOW_BACKGROUND = "\u001B[48;2;150;150;0m";
     private static final String ANSI_RESET = "\u001B[0m";
 
-    private static final double HEALTH_CRITICAL_THRESHOLD = 0.33;
-    private static final double HEALTH_WARNING_THRESHOLD = 0.66;
+    private final double healthCriticalThreshold;
+    private final double healthWarningThreshold;
+
+    public ConsoleEmojiWorldMapRenderer(double healthCriticalThreshold, double healthWarningThreshold) {
+        this.healthCriticalThreshold = healthCriticalThreshold;
+        this.healthWarningThreshold = healthWarningThreshold;
+    }
 
     @Override
     public void render(WorldMap worldMap) {
@@ -37,11 +41,11 @@ public class ConsoleWorldMapRenderer implements WorldMapRenderer {
         if (entity instanceof Herbivore herbivore) {
             double hpRatio = (double) herbivore.getHp() / herbivore.getMaxHp();
 
-            if (hpRatio <= HEALTH_WARNING_THRESHOLD && hpRatio >= HEALTH_CRITICAL_THRESHOLD) {
+            if (hpRatio <= healthWarningThreshold && hpRatio >= healthCriticalThreshold) {
                 return ANSI_DARK_YELLOW_BACKGROUND;
             }
 
-            if (hpRatio < HEALTH_CRITICAL_THRESHOLD) {
+            if (hpRatio < healthCriticalThreshold) {
                 return ANSI_DARK_MAROON_BACKGROUND;
             }
         }
@@ -50,20 +54,15 @@ public class ConsoleWorldMapRenderer implements WorldMapRenderer {
     }
 
     private String getSprite(WorldMap worldMap, Coordinate coordinate) {
-        Entity entity = worldMap.getEntity(coordinate).orElse(null);
+        Optional<Entity> optional = worldMap.getEntity(coordinate);
 
-        if (entity != null) {
-            return switch (entity.getClass().getSimpleName()) {
-                case "Predator" -> SpriteType.PREDATOR.getSprite();
-                case "Herbivore" -> SpriteType.HERBIVORE.getSprite();
-                case "Grass" -> SpriteType.GRASS.getSprite();
-                case "Rock" -> SpriteType.ROCK.getSprite();
-                case "Tree" -> SpriteType.TREE.getSprite();
-                default -> throw new UnknownEntityException(entity.getClass().getSimpleName());
-            };
+        if (optional.isEmpty()) {
+            return SpriteType.EMPTY.getSprite();
         }
 
-        return SpriteType.EMPTY.getSprite();
+        Entity entity = optional.get();
+        String name = entity.getClass().getSimpleName().toUpperCase();
+        return SpriteType.valueOf(name).getSprite();
     }
 
     private enum SpriteType {

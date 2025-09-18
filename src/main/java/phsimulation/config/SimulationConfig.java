@@ -1,6 +1,7 @@
 package main.java.phsimulation.config;
 
 import main.java.phsimulation.pathfinding.Pathfinder;
+import main.java.phsimulation.rendering.WorldMapRenderer;
 
 public final class SimulationConfig{
     private final int worldMapHeight;
@@ -24,6 +25,7 @@ public final class SimulationConfig{
     private final int herbivoreMinCount;
 
     private final Pathfinder pathfinder;
+    private final WorldMapRenderer worldMapRenderer;
 
     private SimulationConfig(Builder builder) {
         this.worldMapHeight = builder.worldMapHeight;
@@ -47,6 +49,7 @@ public final class SimulationConfig{
         this.herbivoreMinCount = builder.herbivoreMinCount;
 
         this.pathfinder = builder.pathfinder;
+        this.worldMapRenderer = builder.worldMapRenderer;
     }
 
     public static class Builder {
@@ -71,6 +74,7 @@ public final class SimulationConfig{
         private int herbivoreMinCount;
 
         private Pathfinder pathfinder;
+        private WorldMapRenderer worldMapRenderer;
 
         public static class WorldMapBuilder {
             private final Builder builder;
@@ -262,6 +266,11 @@ public final class SimulationConfig{
             return this;
         }
 
+        public Builder worldMapRenderer(WorldMapRenderer worldMapRenderer) {
+            this.worldMapRenderer = worldMapRenderer;
+            return this;
+        }
+
         public SimulationConfig build() {
             SimulationConfig cfg = new SimulationConfig(this);
             SimulationConfigValidator.validate(cfg);
@@ -332,4 +341,6 @@ public final class SimulationConfig{
     public Pathfinder getPathfinder() {
         return pathfinder;
     }
+
+    public WorldMapRenderer getWorldMapRenderer() {return worldMapRenderer;};
 }
